@@ -8,10 +8,16 @@ import useLocalStorage from "react-use/lib/useLocalStorage";
 import styled from 'styled-components'
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from 'uuid';
+import { AiFillStar, AiOutlineStar, AiFillDelete } from 'react-icons/ai';
+import { BsToggleOff, BsToggleOn } from 'react-icons/bs';
 
 const WordItemWrapper = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
     border: 1px solid black;
     border-radius: 5px;
+    
     margin: 5px;
     padding: 10px;
     & > input {
@@ -40,18 +46,24 @@ const NoteHeaderWrapper = styled.div`
     justify-content: space-between;
     margin: 5px;
     margin-bottom:30px;
+    & > div:last-child {
+    display: flex;;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
     &>.navigate{
         display: flex;
         flex-direction: row;
         &>div{
-            height: 50%;
+            padding: 10px
+            ;
             margin: 5px;
             border-radius: 10px;
             border:1px solid black;
             display: flex;
             align-items: center
         }
-    }
+    }}
 `
 
 
@@ -60,7 +72,7 @@ const InputWord = () => {
     const [wordIdList, setWordIdList] = useLocalStorage<wordIdProps[]>('wordIdList', [{ mainname: '', subname: '', uuid: '', editedDate: new Date() }])
     const [selectUuid, setSelectUuid] = useLocalStorage<string>(`select_uuid`)
     const [wordContainer, setWordContainer] = useLocalStorage<word[]>(`note_${selectUuid}`, []);
-
+    const [isOnlyStar, setIsOlnyStar] = useState<boolean>(true)
     const mymainname = wordIdList.find(note => note.uuid === selectUuid) !== undefined ? wordIdList.find(note => note.uuid === selectUuid).mainname : '';
     const mysubname = wordIdList.find(note => note.uuid === selectUuid) !== undefined ? wordIdList.find(note => note.uuid === selectUuid).subname : '';
 
@@ -96,16 +108,31 @@ const InputWord = () => {
 
         setWordContainer(result)
     }
-    const returnWord = wordContainer.map((container, i) =>
-    (
-        <WordItemWrapper className="word_item" key={container.index}>
-            <span>{i + 1}</span>
-            {/* Star */}
-            <input className="input" type="text" value={container.before} onChange={e => onChangeWord(e.target.value, container.after, container.index)} />
-            <input className="input" type="text" value={container.after} onChange={e => onChangeWord(container.before, e.target.value, container.index)} />
-            <button onClick={e => DeleteWord(container.index)}>x</button>
-        </WordItemWrapper>
-    )
+    const onChangeStar = (index) => {
+        onChangeTitle({ mainname: mymainname, subname: mysubname })
+        var result = wordContainer;
+        result.find(note => note.index === index).isStar = result.find(note => note.index === index).isStar ? false : true;
+
+        setWordContainer(result)
+    }
+    const returnWord = wordContainer.map((container, i) => {
+        if (isOnlyStar === false || container.isStar === true) {
+            return (
+                <WordItemWrapper className="word_item" key={container.index}>
+                    <span>{i + 1}</span>
+                    <div onClick={() => onChangeStar(container.index)}>
+                        {container.isStar ? <AiFillStar /> :
+                            <AiOutlineStar />}
+                    </div>
+                    <input className="input" type="text" value={container.before} onChange={e => onChangeWord(e.target.value, container.after, container.index)} />
+                    <input className="input" type="text" value={container.after} onChange={e => onChangeWord(container.before, e.target.value, container.index)} />
+                    <div onClick={e => DeleteWord(container.index)}><AiFillDelete /></div>
+                </WordItemWrapper>
+            )
+        } else {
+
+        }
+    }
     )
     return (
         <LayoutBox>
@@ -118,18 +145,22 @@ const InputWord = () => {
                         <input className="note_sub_name" value={mysubname} onChange={(e) => onChangeTitle({ mainname: mymainname, subname: e.target.value })} />
 
                     </div>
-                    <div className='navigate'>
+                    <div>
+                        <div className='navigate'>
 
-                        <Link href={`/matchcards`}>
-                            <div>카드 맞추기</div>
-                        </Link>
+                            <Link href={`/matchcards`}>
+                                <div>카드 맞추기</div>
+                            </Link>
 
-                        <Link href={`/cardview`}>
-                            <div>단어장 보기</div>
-                        </Link>
+                            <Link href={`/cardview`}>
+                                <div>단어장 보기</div>
+                            </Link>
 
+                        </div>
+                        <div onClick={() => isOnlyStar ? setIsOlnyStar(false) : setIsOlnyStar(true)}>
+                            별표시만 보기 {isOnlyStar ? <BsToggleOn /> : <BsToggleOff />}
+                        </div>
                     </div>
-
                 </NoteHeaderWrapper>
                 <div className="word_list">
                     {returnWord}
