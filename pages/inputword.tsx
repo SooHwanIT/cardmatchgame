@@ -72,7 +72,7 @@ const InputWord = () => {
     const [wordIdList, setWordIdList] = useLocalStorage<wordIdProps[]>('wordIdList', [{ mainname: '', subname: '', uuid: '', editedDate: new Date() }])
     const [selectUuid, setSelectUuid] = useLocalStorage<string>(`select_uuid`)
     const [wordContainer, setWordContainer] = useLocalStorage<word[]>(`note_${selectUuid}`, []);
-    const [isOnlyStar, setIsOlnyStar] = useState<boolean>(true)
+    const [isOnlyStar, setIsOlnyStar] = useState<boolean>(false)
     const mymainname = wordIdList.find(note => note.uuid === selectUuid) !== undefined ? wordIdList.find(note => note.uuid === selectUuid).mainname : '';
     const mysubname = wordIdList.find(note => note.uuid === selectUuid) !== undefined ? wordIdList.find(note => note.uuid === selectUuid).subname : '';
 
