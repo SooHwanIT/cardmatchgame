@@ -9,11 +9,21 @@ export type note = {
     id:number;
     mainname:string;
     subname:string;
-    words:word[];
+    words: word[];
+    editedDate: Date;
+    
 }
 
 export type word = {
-  index: number;
+  index?: number;
   before:string;
-  after:string;
+  after: string;
+  isStar: boolean;
+}
+
+export type  wordIdProps ={
+    uuid: string;
+    mainname: string;
+  subname: string;
+        editedDate: Date;
 }

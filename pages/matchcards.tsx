@@ -8,8 +8,8 @@ import LayoutBox from '../components/LayoutBox'
 import ReactDOM from 'react-dom';
 import Modal from '../components/Modal'
 import Link from 'next/link'
-import useLocalStorage from "../components/useLocalStorage";
-
+import useLocalStorage from "react-use/lib/useLocalStorage";
+import { useRouter } from "next/router";
 
 
 interface IProps {
@@ -70,7 +70,8 @@ const WordPairing = () => {
     const [record, setRecord] = useState<recordProps[]>([])
     const [dack, setDack] = useState<CardProps[]>([])
     const [showModal, setShowModal] = useState(false);
-    const [allDackList, setAllDackList] = useLocalStorage('words', [])
+    const [selectUuid, setSelectUuid] = useLocalStorage(`select_uuid`)
+    const [allDackList, setAllDackList] = useLocalStorage(`note_${selectUuid}`, [])
 
     const Gamestart = () => {
         var range = allDackList.concat()
@@ -168,11 +169,12 @@ const WordPairing = () => {
                                 Gamestart();
                             }
 
-                            if (showModal === true) {
-                                { stop() }
-                            } else {
-                                { start() }
-                            }
+                            // if (showModal === true) {
+                            //     { stop() }
+                            // } else {
+                            //     { start() }
+                            // }
+
                             return (
                                 <React.Fragment>
 

@@ -12,17 +12,26 @@ const HomeIndexPage = () => {
     console.log(state, 'test')
   }
   const [showModal, setShowModal] = useState(false);
-  const test = { name: 1 }
+
   return (<LayoutBox>
     <div>
-      <Link href={`/inputword/${test}`}>
-        <button>inputword</button>
+      <Link href={`/inputword?id=${1}`}>
+        <button>inputword1</button>
+      </Link>
+      <Link href={`/inputword?id=${2}`}>
+        <button>inputword2</button>
+      </Link>
+      <Link href={`/inputword?id=${3}`}>
+        <button>inputword3</button>
       </Link>
       <Link href="/matchcards">
         <button>matchcards</button>
       </Link>
       <Link href="/appp">
         <button>app</button>
+      </Link>
+      <Link href={`/wordlist`}>
+        <button>wordlist</button>
       </Link>
     </div>
     <button onClick={() => setShowModal(true)}>Open Modal</button>
