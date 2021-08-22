@@ -32,8 +32,9 @@ background-color: ${props => props.background};
 
 const DeckWrapper = styled.div`
 display: grid ;
+
 grid-template-columns: 240px 240px 240px ;
-grid-template-rows: 200px 200px 200px 200px;
+grid-template-rows: 190px 190px 190px 190px;
 padding:10px;
 border: 1px solid black;
 `
@@ -42,10 +43,15 @@ const DisplayWrapper = styled.div`
 width: 100%;
 height: 100%;
 display: flex ;
-justify-content: space-around;
+justify-content: center;
 `
 const MenuWrapper = styled.div`
 border: 1px solid black;
+width: 400px;
+display: flex;
+justify-content: center;
+flex-direction: column;
+align-items: center;
 `
 
 interface WordProps {
@@ -128,7 +134,7 @@ const WordPairing = () => {
             // console.log('이미 클릭한 카드')
         }
 
-        const dgcolor = (selecValue !== null && selecValue.index === index) ? 'red' : 'white'
+        const dgcolor = (selecValue !== null && selecValue.index === index) ? '#ffa8b8' : 'white'
         const isopacity = (answerCard.find(word => word === index) !== undefined) ? true : false
         const isAnswer = (answerCard.find(word => word === index) !== undefined) ? answerClick : onClickDiv
 
@@ -200,10 +206,10 @@ const WordPairing = () => {
 
                         </div>
                     )}
-                    <button onClick={() => setShowModal(true)}>Open Modal</button>
+                    {/* <button onClick={() => setShowModal(true)}>Open Modal</button>
                     <Link href="/inputword">
                         <button >Open Modal</button>
-                    </Link>
+                    </Link> */}
 
                 </MenuWrapper>
             </DisplayWrapper>
